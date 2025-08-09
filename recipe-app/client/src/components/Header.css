@@ -1,0 +1,28 @@
+.header {
+  background-color: #ff914d;
+  padding: 15px 0;
+  color: white;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+nav a {
+  margin: 0 10px;
+  color: white;
+}
+
+.logout-btn {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

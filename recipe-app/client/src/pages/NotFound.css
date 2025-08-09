@@ -1,0 +1,29 @@
+.notfound-container {
+  max-width: 600px;
+  margin: 80px auto;
+  text-align: center;
+  padding: 30px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.notfound-container h1 {
+  font-size: 72px;
+  margin: 0;
+  color: #ff5722;
+}
+
+.notfound-container p {
+  margin: 12px 0;
+  color: #555;
+}
+
+.notfound-container a {
+  display: inline-block;
+  margin-top: 12px;
+  color: #fff;
+  background: #ff5722;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+}
