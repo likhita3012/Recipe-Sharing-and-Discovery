@@ -1,71 +1,154 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import './CreateRecipe.css';
 
 const CreateRecipe = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [title, setTitle] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [image, setImage] = useState('');
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => setImage(reader.result);
-    if (file) reader.readAsDataURL(file);
+  const [formData, setFormData] = useState({
+    title: '',
+    category: '',
+    ingredients: '',
+    instructions: '',
+    prepTime: '',
+    cookTime: '',
+    servings: '',
+    image: ''
+  });
+
+  const categories = [
+    'Breakfast',
+    'Lunch',
+    'Dinner',
+    'Dessert',
+    'Snack',
+    'Beverage'
+  ];
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === 'image' && files.length > 0) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, image: reader.result });
+      };
+      reader.readAsDataURL(files[0]);
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!user) {
-      alert('Please login to create a recipe.');
-      navigate('/login');
+      alert('You must be logged in to create a recipe.');
       return;
     }
 
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        'http://localhost:5000/api/recipes',
-        { title, ingredients, instructions, image },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      navigate('/dashboard');
-    } catch (err) {
-      console.error(err);
-      alert('Failed to create recipe.');
+      const res = await fetch('http://localhost:5000/api/recipes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        alert('Recipe created successfully!');
+        navigate('/');
+      } else {
+        alert('Error creating recipe.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
   return (
     <div className="create-recipe-container">
       <h2>Create Recipe</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="create-recipe-form">
+        
+        <label>Recipe Title:</label>
         <input
           type="text"
-          placeholder="Recipe Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
           required
         />
+
+        <label>Category:</label>
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Category</option>
+          {categories.map((cat, idx) => (
+            <option key={idx} value={cat}>{cat}</option>
+          ))}
+        </select>
+
+        <label>Ingredients:</label>
         <textarea
-          placeholder="Ingredients (comma separated)"
-          value={ingredients}
-          onChange={(e) => setIngredients(e.target.value)}
+          name="ingredients"
+          value={formData.ingredients}
+          onChange={handleChange}
           required
         />
+
+        <label>Instructions:</label>
         <textarea
-          placeholder="Instructions"
-          value={instructions}
-          onChange={(e) => setInstructions(e.target.value)}
+          name="instructions"
+          value={formData.instructions}
+          onChange={handleChange}
           required
         />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        <button type="submit">Create</button>
+
+        <label>Prep Time (minutes):</label>
+        <input
+          type="number"
+          name="prepTime"
+          value={formData.prepTime}
+          onChange={handleChange}
+          required
+        />
+
+        <label>Cook Time (minutes):</label>
+        <input
+          type="number"
+          name="cookTime"
+          value={formData.cookTime}
+          onChange={handleChange}
+          required
+        />
+
+        <label>Servings:</label>
+        <input
+          type="number"
+          name="servings"
+          value={formData.servings}
+          onChange={handleChange}
+          required
+        />
+
+        <label>Upload Image:</label>
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleChange}
+          required
+        />
+
+        <button type="submit" className="submit-btn">Create Recipe</button>
       </form>
     </div>
   );

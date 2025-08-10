@@ -1,0 +1,60 @@
+.rating-section {
+  padding: 20px;
+}
+
+.stars {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.star {
+  cursor: pointer;
+  color: #ccc;
+  margin-right: 5px;
+}
+
+.star.filled {
+  color: #ff9800;
+}
+
+.comment-box {
+  width: 100%;
+  height: 80px;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.submit-btn {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #e68900;
+}
+
+.reviews-list {
+  margin-top: 20px;
+}
+
+.review-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.review-rating {
+  color: #ff9800;
+}
+
+.review-item small {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+}

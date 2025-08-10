@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import UserDashboard from './pages/UserDashboard';
+import Dashboard from './pages/Dashboard';
 import RecipeDetail from './pages/RecipeDetail';
 import CreateRecipe from './pages/CreateRecipe';
 import EditRecipe from './pages/EditRecipe';
@@ -15,11 +15,11 @@ const App = () => {
     <div>
       <Header />
       <Routes>
-        <Route path="/" element={<UserDashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/recipes/:id" element={<RecipeDetail />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/recipe/:id" element={<RecipeDetail />} />
         <Route path="/create" element={<CreateRecipe />} />
         <Route path="/edit/:id" element={<EditRecipe />} />
         <Route path="*" element={<NotFound />} />

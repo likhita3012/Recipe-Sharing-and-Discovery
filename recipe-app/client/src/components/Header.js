@@ -1,33 +1,48 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import './Header.css';
 
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/');
   };
 
   return (
     <header className="header">
-      <div className="container header-content">
+      <div className="header-left">
         <Link to="/" className="logo">Recipe Platform</Link>
-        <nav>
-          <Link to="/">Dashboard</Link>
-          {user && <Link to="/create">Create Recipe</Link>}
-          {!user ? (
-            <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-            </>
-          ) : (
-            <button onClick={handleLogout} className="logout-btn">Logout</button>
-          )}
-        </nav>
+        
+      </div>
+      <div className="header-right">
+        <Link to="/dashboard" className="nav-link">Dashboard</Link>
+        {user && (
+          <Link to="/create" className="nav-link">Create Recipe</Link>
+        )}
+        
+        {user ? (
+          <div
+            className="dropdown"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <span className="nav-link">My Account</span>
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                <Link to="/profile">Profile</Link>
+                <Link to="/edit-profile">Edit Profile</Link>
+                <Link to="/my-recipes">My Recipes</Link>
+                <span onClick={handleLogout}>Logout</span>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link to="/login" className="nav-link">Login</Link>
+        )}
       </div>
     </header>
   );

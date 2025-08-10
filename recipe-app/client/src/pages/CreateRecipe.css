@@ -1,39 +1,52 @@
 .create-recipe-container {
   max-width: 600px;
   margin: 30px auto;
+  background: #fff3e0;
   padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 .create-recipe-container h2 {
   text-align: center;
   margin-bottom: 20px;
+  color: #e64a19;
 }
 
-.create-recipe-container form {
+.create-recipe-form {
   display: flex;
   flex-direction: column;
 }
 
-.create-recipe-container input,
-.create-recipe-container textarea {
-  margin-bottom: 15px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.create-recipe-form label {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #5d4037;
 }
 
-.create-recipe-container button {
+.create-recipe-form input,
+.create-recipe-form select,
+.create-recipe-form textarea {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-recipe-form textarea {
+  min-height: 80px;
+}
+
+.submit-btn {
+  margin-top: 15px;
   padding: 10px;
-  background-color: #ff6600;
+  background: #ff7043;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 16px;
 }
 
-.create-recipe-container button:hover {
-  background-color: #e65c00;
+.submit-btn:hover {
+  background: #f4511e;
 }
