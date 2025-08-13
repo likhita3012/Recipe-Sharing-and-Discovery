@@ -23,6 +23,7 @@ router.delete('/:id', authMiddleware, deleteRecipe);
 // ratings
 router.post('/:id/rate', authMiddleware, rateRecipe);
 
+
 // comments
 router.get('/:id/comments', getCommentsForRecipe);
 router.post('/:id/comments', authMiddleware, addCommentToRecipe);

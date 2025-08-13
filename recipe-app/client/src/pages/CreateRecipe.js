@@ -7,6 +7,9 @@ const CreateRecipe = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const token = localStorage.getItem('token');
+
+
   const [formData, setFormData] = useState({
     title: '',
     category: '',
@@ -42,6 +45,8 @@ const CreateRecipe = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    
 
     if (!user) {
       alert('You must be logged in to create a recipe.');
@@ -53,7 +58,7 @@ const CreateRecipe = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(formData)
       });

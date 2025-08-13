@@ -20,6 +20,7 @@ export const createRecipe = async (req, res) => {
     await recipe.save();
     res.status(201).json(recipe);
   } catch (error) {
+    alert('Error creatinggggggggggggggggggggggggggggggggggggg recipe:', error);
     res.status(500).json({ message: 'Error creating recipe', error: error.message });
   }
 };
@@ -67,26 +68,33 @@ export const deleteRecipe = async (req, res) => {
 };
 
 // Rate a recipe
+
+
 export const rateRecipe = async (req, res) => {
   try {
     const { rating } = req.body;
+    const userId = req.user._id;
+
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({ message: 'Invalid rating value' });
+    }
+
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) {
       return res.status(404).json({ message: 'Recipe not found' });
     }
 
-    // Check if user has already rated
-    const existingRatingIndex = recipe.ratings.findIndex(r => r.user.toString() === req.user._id.toString());
+    // Remove any previous rating from this user
+    recipe.ratings = recipe.ratings.filter(r => r.user.toString() !== userId.toString());
 
-    if (existingRatingIndex > -1) {
-      recipe.ratings[existingRatingIndex].rating = rating; // Update rating
-    } else {
-      recipe.ratings.push({ user: req.user._id, rating }); // Add new rating
-    }
+    // Add the new rating
+    recipe.ratings.push({ user: userId, value: rating });
 
     await recipe.save();
-    res.json(recipe);
-  } catch (error) {
-    res.status(500).json({ message: 'Error rating recipe', error: error.message });
+
+    res.json({ message: 'Rating submitted successfully', recipe });
+  } catch (err) {
+    console.error('Error in rateRecipe:', err);
+    res.status(500).json({ message: 'Error submitting rating' });
   }
 };
